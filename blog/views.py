@@ -34,18 +34,18 @@ def post_model_create_view(request):
 
 def post_model_update_view(request, id=None):
     template = "blog/update-view.html"
-    if request.POST:
-        post = get_object_or_404(PostModel, id=id)
+    post = get_object_or_404(PostModel, id=id)
+    if request.method == "POST":
         form = PostModelForm(request.POST or None, instance=post)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse('blog:detail', args=(id)))
     else:
-        post = get_object_or_404(PostModel, id=id)
         form = PostModelForm(instance=post)
 
     context = {
         "form": form,
+        "post": post,
         "post_id": id,
     }
 
@@ -61,9 +61,14 @@ def post_model_detail_view(request, id=None):
 
 def post_model_delete_view(request, id=None):
     template = "blog/delete-view.html"
-    obj = get_object_or_404(PostModel, id=id)
-    context = {
-        "object": obj,
-    }
+    post = get_object_or_404(PostModel, id=id)
 
+    if request.method == "POST":
+        post.delete()
+        return HttpResponseRedirect(reverse('blog:list'))
+
+    context = {
+        "post_id": id,
+        "post": post
+    }
     return render(request, template, context)
