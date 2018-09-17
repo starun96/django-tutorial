@@ -1,10 +1,10 @@
-<h1>Delete {{ object.title }}?</h1>
+<h1>Delete {{ post.title }}?</h1>
 
 
-<form method='POST' action="."> {% csrf_token %} Are you sure you want to delete this post?
+<form method='POST' action="{% url 'blog:delete' post_id %}"> {% csrf_token %} Are you sure you want to delete this post?
 
     <input type='submit' value='Yes'>
 
-    <a href='/blog/{{ object.id }}/'>Cancel</a>
+    <a href="{% url 'blog:detail' post_id %}">Cancel</a>
 
 </form>
