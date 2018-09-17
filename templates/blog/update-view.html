@@ -1,4 +1,4 @@
-<h1>Update</h1>
+<h1>Update {{ post.title }} </h1>
 
 <form method='POST' action="{% url 'blog:update' post_id %}">{% csrf_token %} {{ form.as_p }}
     <input type='submit' value='Create'>
